@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ankara Jersey - login</title>
+<link rel="icon" type="image/png" href="logo-removebg-preview.png">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('bg.jpg');
+        background-size: cover;        /* makes it cover full screen */
+        background-position: center;   /* centers the image */
+        background-repeat: no-repeat;  /* prevents tiling */
+        height: 100vh;        
+
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Popup container */
+    .popup {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        transform: scale(0);
+        animation: popupEffect 0.5s ease forwards;
+    }
+
+    @keyframes popupEffect {
+        to {
+            transform: scale(1);
+        }
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    a {
+        display: block;
+        background: #000000;
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 15px;
+    }
+
+    a:hover {
+        background: #6d6d6d;
+    }
+</style>
+</head>
+<body>
+
+<div class="popup">
+    <h2>Login</h2>
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button onclick="loginUser()">Submit</button>
+
+</div>
+    <script>
+async function loginUser() {
+    const username = document.querySelector('input[type="text"]').value;
+    const password = document.querySelector('input[type="password"]').value;
+
+    const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+    alert(data.message);
+
+    // Redirect after successful login
+    window.location.href = "jursey-home.html";
+}
+</script>
+
+</body>
+</html>

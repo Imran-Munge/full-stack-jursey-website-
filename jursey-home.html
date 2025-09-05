@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankara Jersey - Home</title>
+<link rel="icon" type="image/png" href="logo-removebg-preview.png">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: #111;
+        color: white;
+    }
+
+    /* Navigation Bar */
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #000;
+        padding: 10px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 2px solid #444;
+    }
+
+    nav .logo-container {
+        display: flex;
+        align-items: center;
+    }
+
+    nav .logo-container img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        margin-right: 10px;
+        background: white;
+    }
+
+    nav .logo-container span {
+        font-family: 'merrwheather', saorkin-serif;
+        font-weight: bold;
+        font-size: 26px;
+        color: white;
+    }
+
+    nav ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin-left: 20px;
+        position: relative;
+    }
+
+    nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+        color: grey;
+    }
+
+    /* Cart Icon */
+    .cart {
+        cursor: pointer;
+        position: relative;
+        font-size: 22px;
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -10px;
+        background: white;
+        color: black;
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 50%;
+    }
+
+    /* Cart Dropdown Animation */
+    .cart-dropdown {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background: #222;
+        border: 1px solid #555;
+        padding: 10px;
+        width: 270px;
+        z-index: 20;
+        border-radius: 8px;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .cart-dropdown.active {
+        display: block;
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Cart Item with Image */
+    .cart-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #444;
+        padding: 6px;
+        gap: 8px;
+        transition: transform 0.2s ease;
+    }
+
+    .cart-item:hover {
+        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .cart-item img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 1px solid #555;
+    }
+
+    .cart-item-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-total {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .buy-btn {
+        background: grey;
+        color: black;
+        padding: 5px 10px;
+        margin-top: 10px;
+        display: inline-block;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+
+    /* Typing Effect Banner */
+    .typing-banner {
+        width: 100%;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        padding: 15px 0;
+        background: #222;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .typing-text {
+        border-right: 2px solid white;
+        display: inline-block;
+        padding-right: 5px;
+    }
+
+    /* Hero Section */
+    .hero {
+        position: relative;
+        width: 100%;
+        height: 60vh;
+        overflow: hidden;
+    }
+
+    .slides {
+        display: flex;
+        transition: transform 0.6s ease-in-out;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slides img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    /* Arrows */
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0,0,0,0.5);
+        color: white;
+        border: none;
+        font-size: 2rem;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 5;
+        border-radius: 50%;
+        transition: background 0.3s;
+    }
+    .arrow:hover {
+        background: rgba(0,0,0,0.8);
+    }
+    .arrow.left { left: 20px; }
+    .arrow.right { right: 20px; }
+
+    /* Dots */
+    .dots {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+    }
+    .dot {
+        width: 12px;
+        height: 12px;
+        background: rgba(255,255,255,0.6);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .dot.active {
+        background: white;
+    }
+
+    /* Section Header */
+    .section-header {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 20px 0;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    /* Product Grid */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .product {
+        background: #222;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .product:hover {
+        transform: translateY(-5px);
+    }
+
+    .product img {
+        width: 100%;
+        border-radius: 8px;
+        transition: filter 0.3s ease;
+    }
+
+    .product img:hover {
+        filter: brightness(0.8);
+    }
+
+    .price {
+        font-size: 16px;
+        margin: 5px 0;
+        color: white;
+    }
+
+    .rating {
+        font-size: 14px;
+    }
+
+    .add-btn {
+        display: inline-block;
+        margin-top: 5px;
+        background: grey;
+        color: black;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+
+    @media (max-width: 760px) {
+        .hero { height: 40vh; }
+        .section-header { font-size: 1.8rem; }
+    }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="logo-container">
+        <img src="logo.jpg" alt="Logo">
+        <span>Ankara Jersey</span>
+    </div>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="jursey-login.html">Login</a></li>
+        <li><a href="about.html">About</a></li>
+        <li>
+            <div class="cart" onclick="toggleCart()">
+                🛒<span class="cart-count" id="cartCount">0</span>
+                <div class="cart-dropdown" id="cartDropdown">
+                    <div id="cartItems"></div>
+                    <div class="cart-total" id="cartTotal">Total: ₹0</div>
+                    <div class="buy-btn" onclick="buyNow()">Buy</div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<!-- Typing Effect Banner -->
+<div class="typing-banner">
+    <span class="typing-text" id="typingText"></span>
+</div>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="slides" id="slides">
+        <img src="banner1.jpg" alt="Banner 1">
+        <img src="banner6.jpg" alt="Banner 2">
+        <img src="banner3.jpg" alt="Banner 3">
+        <img src="banner5.jpg" alt="Banner 4">
+        <img src="banner4.jpg" alt="Banner 5">
+        <img src="banner2.jpg" alt="Banner 6">
+        <img src="banner7.jpg" alt="Banner 7">
+    </div>
+    <button class="arrow left" onclick="prevSlide()">&#10094;</button>
+    <button class="arrow right" onclick="nextSlide()">&#10095;</button>
+    <div class="dots" id="dots"></div>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">Jerseys</div>
+
+<!-- Product Grid -->
+<div class="product-grid" id="productGrid"></div>
+
+<script>
+    // ===== TYPING EFFECT =====
+    const texts = ["New Season Jerseys", "Limited Time Offers", "Grab Yours Now!"];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 100;
+    const eraseSpeed = 50;
+    const delayBetweenTexts = 1500;
+    const typingTextEl = document.getElementById("typingText");
+
+    function typeEffect() {
+        const currentText = texts[textIndex];
+        if (isDeleting) {
+            typingTextEl.textContent = currentText.substring(0, charIndex--);
+            if (charIndex < 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+        } else {
+            typingTextEl.textContent = currentText.substring(0, charIndex++);
+            if (charIndex > currentText.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, delayBetweenTexts);
+                return;
+            }
+        }
+        setTimeout(typeEffect, isDeleting ? eraseSpeed : typingSpeed);
+    }
+    typeEffect();
+
+    // ===== HERO SLIDER =====
+    const slides = document.getElementById("slides");
+    const totalSlides = slides.children.length;
+    let index = 0;
+    let autoSlide;
+
+    const dotsContainer = document.getElementById("dots");
+    for(let i=0; i<totalSlides; i++) {
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        if(i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    }
+    const dots = document.querySelectorAll(".dot");
+
+    function updateDots() {
+        dots.forEach((d, i) => d.classList.toggle("active", i === index));
+    }
+
+    function showSlide() {
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        updateDots();
+    }
+
+    function nextSlide() {
+        index = (index + 1) % totalSlides;
+        showSlide();
+        resetAutoSlide();
+    }
+
+    function prevSlide() {
+        index = (index - 1 + totalSlides) % totalSlides;
+        showSlide();
+        resetAutoSlide();
+    }
+
+    function goToSlide(i) {
+        index = i;
+        showSlide();
+        resetAutoSlide();
+    }
+
+    function startAutoSlide() {
+        autoSlide = setInterval(nextSlide, 3000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlide);
+        startAutoSlide();
+    }
+
+    startAutoSlide();
+
+    // ===== PRODUCTS =====
+    const products = [];
+    for(let i=1; i<=35; i++){
+        products.push({
+            name: "Jersey " + i,
+            price: Math.floor(Math.random()*500) + 500, // Rupee pricing
+            rating: "⭐⭐⭐⭐",
+            img: "img" + ((i % 4) + 1) + ".jpg"
+        });
+    }
+
+    const grid = document.getElementById("productGrid");
+    products.forEach((p, index) => {
+        grid.innerHTML += `
+            <div class="product">
+                <img src="${p.img}" alt="${p.name}">
+                <div>${p.name}</div>
+                <div class="rating">${p.rating}</div>
+                <div class="price">₹${p.price}</div>
+                <div class="add-btn" onclick="addToCart(${index})">Add to Cart</div>
+            </div>
+        `;
+    });
+
+    let cart = [];
+    function addToCart(index) {
+        cart.push(products[index]);
+        updateCart();
+    }
+
+    function updateCart() {
+        document.getElementById("cartCount").innerText = cart.length;
+        let total = 0;
+        let itemsHTML = "";
+        cart.forEach(item => {
+            total += item.price;
+            itemsHTML += `
+                <div class="cart-item">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="cart-item-info">
+                        <span>${item.name}</span>
+                        <span>₹${item.price}</span>
+                    </div>
+                </div>
+            `;
+        });
+        document.getElementById("cartItems").innerHTML = itemsHTML;
+        document.getElementById("cartTotal").innerText = "Total: ₹" + total;
+    }
+
+    function toggleCart() {
+        document.getElementById("cartDropdown").classList.toggle("active");
+    }
+
+    // Close cart if clicked outside
+    document.addEventListener("click", function(event) {
+        const cartElement = document.querySelector(".cart");
+        if (!cartElement.contains(event.target)) {
+            document.getElementById("cartDropdown").classList.remove("active");
+        }
+    });
+
+    function buyNow() {
+        if(cart.length === 0) {
+            alert("Your cart is empty!");
+        } else {
+            window.location.href = "payment.html"; // redirect to payment page
+        }
+    }
+</script>
+
+</body>
+</html>
